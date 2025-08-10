@@ -5,8 +5,11 @@ import { LoadingScreen } from "./components/LoadingScreen";
 import { WeeklyPlan } from "./components/WeeklyPlan";
 import { ProfileScreen } from "./components/ProfileScreen";
 import { BottomNavigation } from "./components/BottomNavigation";
+import { SystemMockup } from "./components/SystemMockup";
 import { toast } from "sonner";
 import { Toaster } from "./components/ui/sonner";
+import { Button } from "./components/ui/button";
+import { Layout } from "lucide-react";
 
 type AppState = "home" | "form" | "loading" | "plan" | "profile";
 
@@ -35,6 +38,7 @@ export default function App() {
   const [planData, setPlanData] = useState<FormData | null>(null);
   const [savedPlans, setSavedPlans] = useState<SavedPlan[]>([]);
   const [planOpenedFrom, setPlanOpenedFrom] = useState<"new" | "profile">("new");
+  const [showMockup, setShowMockup] = useState(false);
 
   const handleTabChange = (tab: "home" | "profile") => {
     setCurrentTab(tab);
@@ -101,7 +105,7 @@ export default function App() {
     setPlanOpenedFrom("new"); // Это для быстрого просмотра с главной
   };
 
-  const handleViewPlan = (planId: string) => {
+  const handleViewPlan = (_planId: string) => {
     // Здесь можно загрузить конкретный план по ID
     setCurrentState("plan");
     setPlanOpenedFrom("profile"); // План открыт из профиля
@@ -136,6 +140,16 @@ export default function App() {
 
   return (
     <div className="max-w-md mx-auto bg-background min-h-screen relative">
+      {/* Кнопка макета в правом верхнем углу */}
+      <Button
+        onClick={() => setShowMockup(true)}
+        variant="ghost"
+        size="sm"
+        className="fixed top-4 right-4 z-40 bg-white/80 backdrop-blur-sm border shadow-sm"
+      >
+        <Layout className="w-4 h-4" />
+      </Button>
+
       {currentState === "home" && (
         <HomeScreen 
           onCreatePlan={handleCreatePlan}
@@ -190,6 +204,12 @@ export default function App() {
       
       {/* Добавляем отступ снизу, когда показана навигация */}
       {showBottomNav && <div className="h-16" />}
+
+      {/* Макет системы */}
+      <SystemMockup 
+        isOpen={showMockup} 
+        onClose={() => setShowMockup(false)} 
+      />
     </div>
   );
 }

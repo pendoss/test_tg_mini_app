@@ -14,7 +14,7 @@ interface WeeklyPlanProps {
   onBackToProfile?: () => void;
 }
 
-export function WeeklyPlan({ planData, onSave, onDownload, onCreateNew, onViewProfile, onBackToProfile }: WeeklyPlanProps) {
+export function WeeklyPlan({ planData: _planData, onSave, onDownload, onCreateNew, onViewProfile, onBackToProfile }: WeeklyPlanProps) {
   const daysOfWeek = [
     "Понедельник", "Вторник", "Среда", "Четверг", 
     "Пятница", "Суббота", "Воскресенье"
@@ -159,8 +159,8 @@ export function WeeklyPlan({ planData, onSave, onDownload, onCreateNew, onViewPr
                   <div className="flex items-center gap-2">
                     <Dumbbell className="w-4 h-4 text-primary" />
                     <span className="text-sm">
-                      {mockPlan.workouts[day] ? 
-                        `${mockPlan.workouts[day].type} (${mockPlan.workouts[day].duration})` : 
+                      {(mockPlan.workouts as any)[day] ? 
+                        `${(mockPlan.workouts as any)[day].type} (${(mockPlan.workouts as any)[day].duration})` : 
                         "День отдыха"
                       }
                     </span>
